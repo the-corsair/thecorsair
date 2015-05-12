@@ -1,0 +1,86 @@
+
+.thecorsair_font {
+  font-family: "uglyquaregular";
+  font-size: 2.7em !important;
+  color: #fff !important;
+  margin-top: 5px;
+  margin-right: 30px;
+}
+
+.navbar-logo {
+  margin-top: 5px;
+  margin-right: 10px;
+}
+
+.torrent-row {
+  border-bottom: 1px solid #f7f7f7;
+}
+
+.magnet_download_url,.torrent_download_url {
+  font-size: 0.8em;
+}
+
+
+.size {
+  font-size: 0.7em;
+}
+
+.torrent_download_url {
+  margin-right: 3px;
+}
+
+.loading {
+  margin: 50px;
+}
+
+.loading-label {
+  font-family: "uglyquaregular";
+  font-size: 2.8em;
+  margin-left: 20px;
+}
+
+
+.tomorrow {
+  margin-top: 20px;
+}
+
+.category {
+  margin-left: 10px;
+}
+
+
+.navbar-form {
+  margin-top: 15px;
+}
+
+.navbar-nav {
+  margin-top: 5px;
+}
+
+
+.today-label {
+  font-weight: bold;
+}
+
+.torrents-count {
+  margin-left: 20px;
+}
+
+.edition {
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.comment {
+  color: #999;
+}
+
+.origin {
+  text-transform: uppercase;
+  font-size: 0.8em;
+}
+
+.table th, .table td { 
+     border-top: none !important; 
+     border-bottom: none !important; 
+ }

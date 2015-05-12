@@ -1,0 +1,33 @@
+{
+	"db_name": "The Corsair - Torrents",
+	"db_file": "data/thecorsair_torrents.db",
+	"maps": {
+		"torrents/*/*/.*.json": {
+			"to_table": [
+				{
+				"node": "torrents", 
+				"table": "torrent"
+				}
+			]
+		}
+	},
+	"tables": {
+		"torrent": {
+			"cols": [
+				["hash", "TEXT"],
+				["name", "TEXT"],
+				["category", "TEXT"],
+				["info_url", "TEXT"],
+				["download_url", "TEXT"],
+				["size", "INTEGER"],
+				["files_count", "INTEGER"],
+				["origin", "TEXT"],
+				["language", "TEXT"],
+				["upload_date", "DATE"],
+				["json_id", "INTEGER REFERENCES json (json_id)"]
+			],
+			"indexes": ["CREATE UNIQUE INDEX torrent_key ON torrent(hash, json_id)"],
+			"schema_changed": 1426195822
+		}
+	}
+}

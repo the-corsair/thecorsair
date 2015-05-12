@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>The Corsair</title>
+
+  <link href="css/all.css" rel="stylesheet">
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+</head>
+<body role="document" onload="torrents.listTorrents()">
+
+  <nav class="navbar navbar-default navbar-inverse"></nav>
+
+
+  <div class="row loading">
+    <div class="col-md-12 text-center">
+      <i class="fa fa-refresh fa-spin fa-3x"></i> <span class="loading-label"> Loading...</span>
+    </div> 
+  </div>
+
+  <div class="container" id="main-content" role="main"></div>
+
+
+  <div class="container" id="search-content">
+    <div class="row page-control">
+      <h2 class="col-md-8"><span class="today-label">10/10/2010</span> <small class="torrents-count">1234 torrents</small></h2>
+      <div class="col-md-4">
+
+        <button href="#" id="btn-prev" class=" btn btn-link btn-lg  pull-right" onclick="a" type="button">
+          <span class="prev-label">09/10/2010</span>
+          <i class="fa fa-chevron-right"></i>
+        </button>
+        <button href="#" id="btn-next" class=" btn btn-link btn-lg  pull-right" onclick="a" type="button">
+          <i class="fa fa-chevron-left"></i>
+          <span class="next-label">11/10/2010</span>
+        </button>
+      </div>
+      </div>
+    <table class="table torrents table-striped"></table>
+    <table class="hidden">
+      <tr class="torrent-row template">
+        <td style="width: 70%">
+          <span class="name">Name</span>
+        </td>
+        <td>
+          <small class="date comment">date</small>
+        </td>
+        <td>
+          <small class="origin comment">category</small>
+        </td>
+        <td>
+          <span class="label label-default size">11</span>
+        </td>
+        <td>
+          <a href="#" class="btn btn-danger btn-sm pull-right magnet_download_url" title="Magnet link"><i class="fa fa-magnet"></i></a>
+          <a href="#" class="btn btn-default btn-sm pull-right torrent_download_url" title="Download Torrent file"><i class="fa fa-download"></i></a>
+        </td>
+      </tr>
+    </table>
+    <div id="noResultsSearch">
+      <h3>No ebooks found. <br>
+      <small>Try adding the % wildcard to your search string. (e.g: %search%)</small></h3>
+      <a href="#" onclick="torrents.listTorrents()">or browse today's ebooks</a>
+    </div>
+    <div id="noResultsDay">
+      <h3>No ebooks for this date. <br>
+      <small>New ebooks will soon arrive! Go read something meanwhile!</small></h3>
+    </div>
+  </div> 
+  <script src="js/all.js"></script>
+</body>
+</html>
