@@ -35,7 +35,7 @@ class TheCorsair extends ZeroFrame
 		$(".today-label").html(moment(startOfDay,"X").format("D/MM/YYYY"))
 
 
-		@cmd "dbQuery", ["SELECT * FROM torrent WHERE upload_date <= #{endOfDay} AND upload_date >= #{startOfDay}"], (res) =>
+		@cmd "dbQuery", ["SELECT * FROM torrent WHERE ud <= #{endOfDay} AND ud >= #{startOfDay}"], (res) =>
 
 			$(".torrents-count").text(res.length + " torrents")
 			if res.error or res.length == 0
@@ -54,20 +54,22 @@ class TheCorsair extends ZeroFrame
 
 	addTorrentToList: (torrent, search=0) =>
 		elem = @template.clone().removeClass("template")
-		$(".name", elem).text(torrent.name)
-		$(".category", elem).text(torrent.category)
-		$(".origin", elem).text(torrent.origin)
-		$(".date", elem).text(@formatSince(torrent.upload_date))
-		$(".size", elem).text(bytesToSize(torrent.size))
+		$(".name", elem).text(torrent.n)
+		#FIX-ME when we have multiple categories
+		#$(".category", elem).text(torrent.c)
+		#FIX-ME when we have indexes
+		$(".origin", elem).text("kat")
+		$(".origin-url", elem).attr("href","https://kickass.to/#{torrent.iu}")
+		$(".date", elem).text(@formatSince(torrent.ud))
+		$(".size", elem).text(bytesToSize(torrent.s))
 		if search
 			$(".date", elem).show()
 		else
 			$(".date", elem).hide()
-		$(".torrent_download_url", elem).attr("href", torrent.download_url)
-		magnet_url = "magnet:?xt=urn:btih:#{torrent.hash}&dn=#{torrent.name.replace(/[^a-z0-9]/gi, '_').toLowerCase();}&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A80"
+		$(".torrent_download_url", elem).attr("href", "http://torcache.net/torrent/" + torrent.h + ".torrent")
+		magnet_url = "magnet:?xt=urn:btih:#{torrent.h}&dn=#{torrent.n.replace(/[^a-z0-9]/gi, '_').toLowerCase();}&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.ccc.de%3A80&tr=udp%3A%2F%2Ftracker.istole.it%3A80"
 		$(".magnet_download_url", elem).attr("href", magnet_url)
 		elem.appendTo($(".torrents"))
-		#$("table.torrents tr:last").after(elem)
 
 	makeSearch: (string) =>
 		$(".loading").show()
@@ -85,7 +87,9 @@ class TheCorsair extends ZeroFrame
 
 		$(".torrents").html("")
 
-		@cmd "dbQuery", ["SELECT * FROM torrent WHERE name LIKE '#{string}' ORDER BY upload_date DESC"], (res) =>
+		
+
+		@cmd "dbQuery", ["SELECT * FROM torrent WHERE n LIKE '%#{string}%' ORDER BY ud DESC"], (res) =>
 			$(".torrents-count").text(res.length + " torrents")
 
 			if res.error or res.length == 0

@@ -49,16 +49,17 @@
     <table class="table torrents table-striped"></table>
     <table class="hidden">
       <tr class="torrent-row template">
-        <td style="width: 70%">
+        <td style="width: 70%; padding-top: 13px;">
           <span class="name">Name</span>
         </td>
-        <td>
+        <td style="padding-top: 13px;">
           <small class="date comment">date</small>
         </td>
-        <td>
-          <small class="origin comment">category</small>
+        <td style="padding-top: 13px;">
+          <small class="origin comment">origin</small> 
+          <a href="#" class="origin-url comment" target="_top"><i class="fa fa-external-link"></i></a>
         </td>
-        <td>
+        <td style="padding-top: 13px;">
           <span class="label label-default size">11</span>
         </td>
         <td>
@@ -69,12 +70,11 @@
     </table>
     <div id="noResultsSearch">
       <h3>No ebooks found. <br>
-      <small>Try adding the % wildcard to your search string. (e.g: %search%)</small></h3>
+      <small>Try adding the % wildcard to your search string. (e.g: search%string)</small></h3>
       <a href="#" onclick="torrents.listTorrents()">or browse today's ebooks</a>
     </div>
     <div id="noResultsDay">
-      <h3>No ebooks for this date. <br>
-      <small>New ebooks will soon arrive! Go read something meanwhile!</small></h3>
+      <h3>No ebooks for this date <i class="fa fa-frown-o fx-2x"></i></h3>
     </div>
   </div> 
   <script src="js/all.js"></script>

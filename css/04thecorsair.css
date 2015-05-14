@@ -84,3 +84,7 @@
      border-top: none !important; 
      border-bottom: none !important; 
  }
+
+ .origin-url {
+  font-size: 0.8em;
+ }
