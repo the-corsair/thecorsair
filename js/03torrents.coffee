@@ -11,17 +11,20 @@ class TheCorsair extends ZeroFrame
 		@cmd "dbQuery", ["SELECT count(*) as kct FROM torrent"], (res) =>
 			$(".kat-count").text(res[0]["kct"] + " ebook torrents")
 
-	listTorrents: (startOfDay=moment().startOf('day').format("X")) ->
+	listTorrents: (startOfDay=moment().startOf('day').format("X"),offset=0,load_more=0) ->
 		@template = $(".torrent-row.template").clone()
 
 		endOfDay = moment(startOfDay,"X").endOf('day').format("X")
 		yesterday = moment(startOfDay,'X').subtract(1,'days').format('X')
 		tomorrow = moment(startOfDay,'X').add(1,'days').format('X')
 
-		$(".loading").show()
-		$(".page-control").hide()
-		$(".torrents").html("")
-		@log $("#btn-next")
+		if load_more == 0
+			$(".loading").show()
+			$(".page-control").hide()
+			$(".torrents").html("")
+		else
+			$("#show-more-loading").show()
+
 		if moment().startOf('day').format("X") != startOfDay
 			$("#btn-next").attr("onclick", "torrents.listTorrents('#{tomorrow}')").show()
 			$(".next-label").text(moment(tomorrow,"X").format("D/MM/YYYY"))
@@ -36,20 +39,38 @@ class TheCorsair extends ZeroFrame
 
 
 		@cmd "dbQuery", ["SELECT * FROM torrent WHERE ud <= #{endOfDay} AND ud >= #{startOfDay}"], (res) =>
-
+			
 			$(".torrents-count").text(res.length + " torrents")
-			if res.error or res.length == 0
-				$(".torrents").html($("#noResultsDay").clone().show())
+
+			if 	(res.length - offset) >= 100
+				total_ct = 100
+			else
+				total_ct = res.length - offset
+
+			if total_ct == 100
+				$("#show-more").attr("onclick", "torrents.listTorrents('#{startOfDay}',#{offset+total_ct},1)").show()
+			else
+				$("#show-more").hide()
+
+			if offset > 0
+				query = "SELECT * FROM torrent WHERE ud <= #{endOfDay} AND ud >= #{startOfDay} LIMIT 100 OFFSET #{offset}"
+			else
+				query = "SELECT * FROM torrent WHERE ud <= #{endOfDay} AND ud >= #{startOfDay} LIMIT 100"
+
+			@cmd "dbQuery", [query], (res) =>
+
+				if res.error or res.length == 0
+					$(".torrents").html($("#noResultsDay").clone().show())
+					$(".loading").hide()
+					$(".page-control").show()
+					return
+
+				for torrent in res
+					@addTorrentToList(torrent)
 				$(".loading").hide()
 				$(".page-control").show()
-				return
-
-
-			for torrent in res
-				@addTorrentToList(torrent)
-			$(".loading").hide()
-			$(".page-control").show()
-
+				$("#show-more-loading").hide()
+				$("#show-more").removeClass("hidden")
 		
 
 	addTorrentToList: (torrent, search=0) =>
@@ -59,7 +80,7 @@ class TheCorsair extends ZeroFrame
 		#$(".category", elem).text(torrent.c)
 		#FIX-ME when we have indexes
 		$(".origin", elem).text("kat")
-		$(".origin-url", elem).attr("href","https://kickass.to/#{torrent.iu}")
+		$(".origin-url", elem).attr("href","https://kat.cr/#{torrent.iu}")
 		$(".date", elem).text(@formatSince(torrent.ud))
 		$(".size", elem).text(bytesToSize(torrent.s))
 		if search
@@ -74,6 +95,7 @@ class TheCorsair extends ZeroFrame
 	makeSearch: (string) =>
 		$(".loading").show()
 		$(".page-control").hide()
+		$("#show-more").hide()
 
 		@template = $(".torrent-row.template").clone()
 		if string == ""
